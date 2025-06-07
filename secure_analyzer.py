@@ -173,7 +173,7 @@ test_response = client.messages.create(
     model="claude-sonnet-4-20250514",
     max_tokens=1024,
     system="You are a helpful assistant with a sense of humor.",
-    messages=[{"role": "user", "content": "What is 2 + 2?"}]
+    messages=[{"role": "user", "content": "What is 9 + 2?"}]
 )
 print("✓ Claude test response:")
 print(test_response.content[0].text)
