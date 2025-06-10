@@ -11,7 +11,7 @@ load_dotenv(override=True)
 api_key = os.getenv('ANTHROPIC_API_KEY')
 client = anthropic.Anthropic(api_key=api_key)
 
-message = "Hello, Claude! How are you doing today?"
+message = "Hello, Claude! How are you doing today doing?"
 response = client.messages.create(
     model="claude-sonnet-4-20250514",
     max_tokens=1024,
