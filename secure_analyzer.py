@@ -70,7 +70,7 @@ class VaultSecretManager:
         try:
             if hasattr(self, 'auth_info') and self.auth_info.get('renewable', False):
                 renewal_response = self.client.auth.token.renew_self()
-                print(f"✓ Token renewed successfully. New TTL: {renewal_response['auth']['lease_duration']} seconds")
+                print(f"✓ Token renewed successfully. New TTL: {renewal_response['auth']['lease_duration11']} seconds")
                 return True
             else:
                 print("⚠ Token is not renewable")
