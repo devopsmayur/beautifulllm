@@ -7,6 +7,27 @@ from IPython.display import Markdown, display
 import anthropic
 
 class VaultSecretManager:
+
+
+    def renew_token(self):
+        """
+        Renew the Vault token if it's renewable
+        """
+        try:
+            if hasattr(self, 'auth_info') and self.auth_info.get('renewable', False):
+                renewal_response = self.client.auth.token.renew_self()
+                print(f"✓ Token renewed successfully. New TTL: {renewal_response['auth']['lease_duration']} seconds")
+                return True
+            else:
+                print("⚠ Token is not renewable")
+                return False
+        except Exception as e:
+            print(f"✗ Failed to renew token: {str(e)}")
+           
+        """
+        try:
+            # Read secret from Vault (KV v2 engine)
+            response = self.client.secrets.kv.v2.read_secret_version(path=self.vault_path.split('/')[-1])
     """
     HashiCorp Vault integration for secure secret management using AppRole authentication
     """
@@ -63,33 +84,7 @@ class VaultSecretManager:
         except Exception as e:
             raise Exception(f"Failed to authenticate with Vault using AppRole: {str(e)}")
     
-    def renew_token(self):
-        """
-        Renew the Vault token if it's renewable
-        """
-        try:
-            if hasattr(self, 'auth_info') and self.auth_info.get('renewable', False):
-                renewal_response = self.client.auth.token.renew_self()
-                print(f"✓ Token renewed successfully. New TTL: {renewal_response['auth']['lease_duration']} seconds")
-                return True
-            else:
-                print("⚠ Token is not renewable")
-                return False
-        except Exception as e:
-            print(f"✗ Failed to renew token: {str(e)}")
-            return False
     
-    def get_secret(self, key):
-        """
-        Retrieve a secret from Vault
-        Args:
-            key: The key name for the secret
-        Returns:
-            The secret value
-        """
-        try:
-            # Read secret from Vault (KV v2 engine)
-            response = self.client.secrets.kv.v2.read_secret_version(path=self.vault_path.split('/')[-1])
             secrets = response['data']['data']
             
             if key not in secrets:
@@ -168,6 +163,34 @@ def user_prompt_for(website):
     user_prompt += website.text
     return user_prompt
 
+def renew_token(self):
+        """
+        Renew the Vault token if it's renewable
+        """
+        try:
+            if hasattr(self, 'auth_info') and self.auth_info.get('renewable', False):
+                renewal_response = self.client.auth.token.renew_self()
+                print(f"✓ Token renewed successfully. New TTL: {renewal_response['auth']['lease_duration']} seconds")
+                return True
+            else:
+                print("⚠ Token is not renewable")
+                return False
+        except Exception as e:
+            print(f"✗ Failed to renew token: {str(e)}")
+            return False
+    
+    def get_secret(self, key):
+        """
+        Retrieve a secret from Vault
+        Args:
+            key: The key name for the secret
+        Returns:
+            The secret value
+        """
+        try:
+            # Read secret from Vault (KV v2 engine)
+            response = self.client.secrets.kv.v2.read_secret_version(path=self.vault_path.split('/')[-1])
+
 # Test Claude with a simple question
 test_response = client.messages.create(
     model="claude-sonnet-4-20250514",
@@ -199,6 +222,22 @@ def summarize(url):
         return response.content[0].text
     except Exception as e:
         return f"Error summarizing website: {str(e)}"
+
+
+def renew_token(self):
+        """
+        Renew the Vault token if it's renewable
+        """
+        try:
+            if hasattr(self, 'auth_info') and self.auth_info.get('renewable', False):
+                renewal_response = self.client.auth.token.renew_self()
+                print(f"✓ Token renewed successfully. New TTL: {renewal_response['auth']['lease_duration']} seconds")
+                return True
+       
+        """
+        try:
+            # Read secret from Vault (KV v2 engine)
+            response = self.client.secrets.kv.v2.read_secret_version(path=self.vault_path.split('/')[-1])
 
 def display_summary(url):
     """
